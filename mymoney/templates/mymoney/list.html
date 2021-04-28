@@ -6,6 +6,28 @@
 </head>
 <body>
  <h1>THis is the homepage</h1>
+
+ <table>
+    <tr>
+        <th>Date</th>
+        <th>Catagory</th>
+        <th>Amount</th>
+        <th>Description</th>
+        <th>Note</th>
+        <th>Account</th>
+    </tr>
+    {% for item in expences %}
+        <tr>
+            <td>{{ item.expense_date }}</td>
+            <td>{{ item.expense_category }}</td>
+            <td>{{ item.expense_amount }}</td>
+            <td>{{ item.expense_description }}</td>
+            <td>{{ item.expense_note }}</td>
+            <td>{{ item.expense_account }}</td>
+        </tr>
+    {% endfor %}
+
+</table>
  <h1>{{ fucked }}</h1>
 <h1>{{ income }}</h1>
 </body>

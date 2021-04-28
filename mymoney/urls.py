@@ -4,5 +4,6 @@ from . import views
 
 urlpatterns = [
     path('', views.index),
-    path('read/<int:pk>', views.read, name="read")
+    path('read/<int:pk>', views.read, name="read"),
+    path('adddata', views.addFromExel, name="addfromexel")
 ]

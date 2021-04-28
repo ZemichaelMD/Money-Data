@@ -35,7 +35,7 @@ class Expense(models.Model):
     expense_amount = models.DecimalField(max_digits=10, decimal_places=2)
     expense_description = models.CharField(max_length=350)
     expense_note = models.CharField(max_length=350, blank=True)
-    expense_account = models.ForeignKey(MoneyAccount, on_delete=models.CASCADE)
+    expense_account = models.ForeignKey(MoneyAccount, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return str(self.expense_amount) + " - for " + self. expense_description
