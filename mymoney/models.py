@@ -35,7 +35,7 @@ class Expense(models.Model):
     expense_amount = models.DecimalField(max_digits=10, decimal_places=2)
     expense_description = models.CharField(max_length=350)
     expense_note = models.CharField(max_length=350, blank=True)
-    expense_account = models.ForeignKey(MoneyAccount, on_delete=models.CASCADE, blank=True, null=True)
+    expense_account = models.ForeignKey(MoneyAccount, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.expense_amount) + " - for " + self. expense_description
@@ -49,7 +49,7 @@ class Income(models.Model):
     income_amount = models.DecimalField(max_digits=10, decimal_places=2)
     income_description = models.CharField(max_length=350)
     income_note = models.CharField(max_length=350, null=True, blank=True)
-    income_account = models.ForeignKey(MoneyAccount, on_delete=models.CASCADE, null=True, blank=True)
+    income_account = models.ForeignKey(MoneyAccount, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.income_amount) + " from " + self.income_description
@@ -58,15 +58,15 @@ class Income(models.Model):
         verbose_name = "Income"
 
 
-'''class Transfers(models.Model):
+class Transfers(models.Model):
     transfer_date = models.DateTimeField()
-    transfer_from = models.ForeignKey(MoneyAccount, on_delete=models.CASCADE)
-    transfer_to = models.ForeignKey(MoneyAccount, on_delete=models.CASCADE)
+    transfer_from = models.ForeignKey(MoneyAccount,  related_name='transfer_from', on_delete=models.CASCADE)
+    transfer_to = models.ForeignKey(MoneyAccount, related_name='transfer_to', on_delete=models.CASCADE)
     transfer_amount = models.DecimalField(max_digits=10, decimal_places = 2)
-    transfer_reason = models.CharField(max_length=300)
+    transfer_reason = models.CharField(max_length=300, null=True, blank=True)
 
     def __str__(self):
         return str(self.transfer_amount) + " transferred"
 
     class Meta:
-        verbose_name = "Transfers" '''
+        verbose_name = "Transfers"
