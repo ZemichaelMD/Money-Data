@@ -13,7 +13,7 @@ def index(request):
     context = {'expences': expences}
     return render(request, 'mymoney/list.html', context)
 
-'''
+
 def addFromExel(request):
     import xlrd
     import datetime
@@ -49,8 +49,6 @@ def addFromExel(request):
             #convert exel Date to Python
             date_as_datetime = datetime.datetime(*xlrd.xldate_as_tuple(date, book.datemode))
 
-            data = {'Date': date_as_datetime}
-
             #Datetime Converter to Django Date time
             import datetime
             from django.conf import settings
@@ -59,10 +57,9 @@ def addFromExel(request):
             exexpence_date_formated = make_aware(date_as_datetime)
 
             #Add Expence
-            p = Expense(expense_date = exexpence_date_formated, expense_category=str(row_header_set[1]),
+            models.Expense.objects.create(expense_date = exexpence_date_formated, expense_category=str(row_header_set[1]),
                          expense_amount=float(row_header_set[2]), expense_description=str(row_header_set[3]),
                          expense_note=str(row_header_set[4]))
-            p.save()
             print("done adding" + str(row_header_set[3]))
 
         except:
@@ -107,7 +104,7 @@ def addFromExel(request):
         except:
             pass
 
-
+    '''
     #Adding Accounts
     sheet_account = book.sheet_by_name('Accounts')
 
@@ -191,8 +188,8 @@ def addFromExel(request):
                 p.save()
 
             except:
-                pass
+                pass'''
 
     done = "Done adding..."
     context = {'done': done}
-    return render(request, 'mymoney/done.html', context)'''
+    return render(request, 'mymoney/done.html', context)
