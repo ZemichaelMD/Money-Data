@@ -5,8 +5,7 @@
     <title>list</title>
 </head>
 <body>
- <h1>THis is the homepage</h1>
-
+ <h1>Expences</h1>
  <table>
     <tr>
         <th>Date</th>
@@ -24,11 +23,10 @@
             <td>{{ item.expense_description }}</td>
             <td>{{ item.expense_note }}</td>
             <td>{{ item.expense_account }}</td>
+            <td><a href="#">Edit</a></td>
+            <td><a href="#">Delete</a></td>
         </tr>
     {% endfor %}
-
 </table>
- <h1>{{ fucked }}</h1>
-<h1>{{ income }}</h1>
 </body>
 </html>
