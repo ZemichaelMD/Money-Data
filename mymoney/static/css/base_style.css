@@ -10,19 +10,15 @@ header {
     color: white;
     min-height: 8rem;
 }
-ul {text-decoration: none;
-    background: aqua;
-    display: flex;
+ul {display: flex;
     min-height: 2rem;
     min-width: auto;
 }
-a{
+
+a  {
     text-decoration: none;
-}
-li  {
-    text-decoration: none;
-    margin: 2rem;
-    padding: 1rem;
+    margin: 2.5rem;
+    min-height: 2rem;
     background: black;
     color: white;
 }
