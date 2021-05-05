@@ -14,5 +14,4 @@ urlpatterns = [
     path('transfers/update/<int:pk>', views.TransfersUpdateView.as_view(), name='transfers_update'),
     path('accounts/update/<int:pk>', views.AccountsUpdateView.as_view(), name='accounts_update'),
     path('newexpense', views.ExpensesCreateView.as_view(), name='create_expense'),
-
 ]
