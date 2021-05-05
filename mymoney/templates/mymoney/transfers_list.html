@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>List of Transfers</h1>
+ <table>
+    <tr>
+        <th>Date</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Amount</th>
+        <th>Reason</th>
+    </tr>
+    {% for item in transfers_list %}
+        <tr>
+            <td>{{ item.transfer_date.date }}</td>
+            <td>{{ item.transfer_from }}</td>
+            <td>{{ item.transfer_to }}</td>
+            <td>{{ item.transfer_amount }}</td>
+            <td>{{ item.transfer_reason }}</td>
+            <td><a href="transfers/update/{{ item.id }}">Edit</a></td>
+            <td><a href="transfers/delete/{{ item.id }}">Delete</a></td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}

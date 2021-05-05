@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>list</title>
-</head>
-<body>
- <h1>Expences</h1>
+{% extends "base.html" %}
+
+{% block content %}
+<h1>List of Expences</h1>
+
+<a href="{% url "create_expense" %}">Create Expense</a>
+
  <table>
     <tr>
         <th>Date</th>
@@ -15,18 +14,17 @@
         <th>Note</th>
         <th>Account</th>
     </tr>
-    {% for item in expences %}
+    {% for item in expense_list %}
         <tr>
-            <td>{{ item.expense_date }}</td>
+            <td>{{ item.expense_date.date }}</td>
             <td>{{ item.expense_category }}</td>
             <td>{{ item.expense_amount }}</td>
             <td>{{ item.expense_description }}</td>
             <td>{{ item.expense_note }}</td>
             <td>{{ item.expense_account }}</td>
-            <td><a href="#">Edit</a></td>
-            <td><a href="#">Delete</a></td>
+            <td><a href="expenses/update/{{ item.id }}">Edit</a></td>
+            <td><a href="expenses/delete/{{ item.id }}">Delete</a></td>
         </tr>
     {% endfor %}
 </table>
-</body>
-</html>
+{% endblock %}

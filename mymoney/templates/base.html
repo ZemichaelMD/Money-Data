@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/base_style.css' %}">
+    <title>{{ page_title }}</title>
+</head>
+
+<header>
+    <h1>Money Data</h1>
+<div>
+    <ul>
+        <li>
+            <a href="{% url "expenses" %}">Expences</a>
+        </li>
+        <li>
+            <a href="{% url "incomes" %}">Incomes</a>
+        </li>
+        <li>
+            <a href="{% url "transfers" %}">Transfers</a>
+        </li>
+        <li>
+            <a href="{% url "accounts" %}">Home</a>
+        </li>
+    </ul>
+</div>
+</header>
+<body>
+{% block content %}
+
+{% endblock content %}
+</body>
+</html>

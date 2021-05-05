@@ -1,0 +1,28 @@
+body {
+  max-width: 800px;
+    margin: auto;
+    background: bisque;
+}
+header {
+    width: 100%;
+    text-align: right;
+    background: black;
+    color: white;
+    min-height: 8rem;
+}
+ul {text-decoration: none;
+    background: aqua;
+    display: flex;
+    min-height: 2rem;
+    min-width: auto;
+}
+a{
+    text-decoration: none;
+}
+li  {
+    text-decoration: none;
+    margin: 2rem;
+    padding: 1rem;
+    background: black;
+    color: white;
+}

@@ -4,6 +4,22 @@ urlpatterns = [
 ]
 
 
+#done.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Done</title>
+</head>
+<body>
+{{ done }}
+{% for data in added_data %}
+    <ul> <li>{{ data }}</li></ul>
+{% endfor %}
+</body>
+</html>
+
+
 #the adding function
 def addFromExel(request):
     import xlrd

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>List of Accounts</h1>
+ <table>
+    <tr>
+        <th>Account Name</th>
+        <th>Account Number</th>
+        <th>Account Balance</th>
+    </tr>
+    {% for item in moneyaccount_list %}
+        <tr>
+            <td>{{ item.account_name }}</td>
+            <td>{{ item.account_number }}</td>
+            <td>{{ item.account_balance }}</td>
+            <td><a href="accounts/update/{{ item.id }}">Edit</a></td>
+            <td><a href="accounts/delete/{{ item.id }}">Delete</a></td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}
