@@ -36,6 +36,7 @@ class Expense(models.Model):
     expense_description = models.CharField(max_length=350)
     expense_note = models.CharField(max_length=350, blank=True)
     expense_account = models.ForeignKey(MoneyAccount, on_delete=models.CASCADE)
+    expense_synced = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.expense_amount) + " - for " + self. expense_description
@@ -50,6 +51,7 @@ class Income(models.Model):
     income_description = models.CharField(max_length=350)
     income_note = models.CharField(max_length=350, null=True, blank=True)
     income_account = models.ForeignKey(MoneyAccount, on_delete=models.CASCADE)
+    income_synced = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.income_amount) + " from " + self.income_description
@@ -64,6 +66,7 @@ class Transfers(models.Model):
     transfer_to = models.ForeignKey(MoneyAccount, related_name='transfer_to', on_delete=models.CASCADE)
     transfer_amount = models.DecimalField(max_digits=10, decimal_places = 2)
     transfer_reason = models.CharField(max_length=300, null=True, blank=True)
+    transfer_synced = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.transfer_amount) + " transferred"
