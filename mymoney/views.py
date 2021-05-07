@@ -20,36 +20,48 @@ class CostomLoginView(LoginView):
 class ExpenceListView(LoginRequiredMixin, ListView):
     model = models.Expense
     template_name = "mymoney/expense_list.html"
+    context_object_name = "expenses"
+
+    def get_queryset(self):
+        return models.Expense.objects.order_by('-expense_date')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['expenses'] = context['expenses'].filter(expense_user=self.request.user)
+        context['count'] = context['expenses'].filter(expense_user=self.request.user).count
         context["page_title"] = "Expence Data"
         return context
 
 class IncomeListView(LoginRequiredMixin, ListView):
     model = models.Income
     template_name = "mymoney/income_list.html"
+    context_object_name = 'incomes'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['incomes'] = context['incomes'].filter(income_user=self.request.user)
         context["page_title"] = "Income Data"
         return context
 
 class TransferListView(LoginRequiredMixin, ListView):
     model = models.Transfers
     template_name = "mymoney/transfers_list.html"
+    context_object_name = 'transfers'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['transfers'] = context['transfers'].filter(transfer_user=self.request.user)
         context["page_title"] = "Transfer Data"
         return context
 
 class AccountListView(LoginRequiredMixin, ListView):
     model = models.MoneyAccount
     template_name = "mymoney/accounts_list.html"
+    context_object_name = 'accounts'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['accounts'] = context['accounts'].filter(account_user=self.request.user)
         context["page_title"] = "Accounts Data"
         return context
 

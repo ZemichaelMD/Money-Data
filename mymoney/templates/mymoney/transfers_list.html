@@ -2,24 +2,22 @@
 
 {% block content %}
 <h1>List of Transfers</h1>
- <table>
-    <tr>
-        <th>Date</th>
-        <th>From</th>
-        <th>To</th>
-        <th>Amount</th>
-        <th>Reason</th>
-    </tr>
-    {% for item in transfers_list %}
-        <tr>
-            <td>{{ item.transfer_date.date }}</td>
-            <td>{{ item.transfer_from }}</td>
-            <td>{{ item.transfer_to }}</td>
-            <td>{{ item.transfer_amount }}</td>
-            <td>{{ item.transfer_reason }}</td>
-            <td><a href="transfers/update/{{ item.id }}">Edit</a></td>
-            <td><a href="transfers/delete/{{ item.id }}">Delete</a></td>
-        </tr>
-    {% endfor %}
-</table>
+
+<ol class="list-group">
+    {% for item in transfers %}
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">From: {{ item.transfer_from }} To: {{ item.transfer_to }}</div>
+            {{ item.transfer_date.date }}<br>
+            <a href="transfers/update/{{ item.id }}">Edit</a>
+            <a href="transfers/delete/{{ item.id }}">Delete</a>
+            {%if transfer_reason%}
+            {{ item.transfer_reason }}
+            {%endif%}
+        </div>
+        <span class="badge bg-primary ">{{ item.transfer_amount }}</span>
+    </li>
+{% endfor %}
+</ol>
+
 {% endblock %}

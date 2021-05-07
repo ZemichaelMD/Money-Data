@@ -1,26 +1,22 @@
 {% extends "base.html" %}
 
 {% block content %}
-
 <h1>List of Incomes</h1>
- <table>
-    <tr>
-        <th>Date</th>
-        <th>Amount</th>
-        <th>Description</th>
-        <th>Note</th>
-        <th>Account</th>
-    </tr>
-    {% for item in income_list %}
-        <tr>
-            <td>{{ item.income_date.date }}</td>
-            <td>{{ item.income_amount }}</td>
-            <td>{{ item.income_description }}</td>
-            <td>{{ item.income_note }}</td>
-            <td>{{ item.income_account }}</td>
-            <td><a href="income/update/{{ item.id }}">Edit</a></td>
-            <td><a href="income/delete/{{ item.id }}">Delete</a></td>
-        </tr>
-    {% endfor %}
+
+<ol class="list-group">
+{% for item in incomes %}
+    <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">{{ item.income_description }}</div>
+            {{ item.income_date.date }}<br>
+            <a href="income/update/{{ item.id }}">Edit</a>
+            <a href="income/delete/{{ item.id }}">Delete</a>
+        </div>
+
+        <span class="badge bg-primary ">{{ item.income_amount }}</span>
+    </li>
+{% endfor %}
+</ol>
+
 </table>
 {% endblock %}
