@@ -1,23 +1,10 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 # Create your models here.
-class ToBePaid(models.Model):
-    tobe_date = models.DateTimeField()
-    tobe_from = models.CharField(max_length=100)
-    tobe_work = models.CharField(max_length=300)
-    tobe_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    tobe_Sure = models.BooleanField(default=False)
-
-    def __str__(self):
-        return str(self.tobe_amount) + " from " + self.tobe_from
-
-    class Meta:
-        verbose_name = "To Be Paid"
-        verbose_name_plural = "To Be Paid"
-
-
 class MoneyAccount(models.Model):
+    account_user = models.ForeignKey(User, on_delete=models.CASCADE)
     account_name = models.CharField(max_length=100)
     account_number = models.IntegerField(null=True, blank=True)
     account_balance = models.DecimalField(max_digits=10, decimal_places=2)
@@ -30,6 +17,7 @@ class MoneyAccount(models.Model):
 
 
 class Expense(models.Model):
+    expense_user = models.ForeignKey(User, on_delete=models.CASCADE)
     expense_date = models.DateTimeField()
     expense_category = models.CharField(max_length=100)
     expense_amount = models.DecimalField(max_digits=10, decimal_places=2)
@@ -46,6 +34,7 @@ class Expense(models.Model):
 
 
 class Income(models.Model):
+    income_user = models.ForeignKey(User, on_delete=models.CASCADE)
     income_date = models.DateTimeField()
     income_amount = models.DecimalField(max_digits=10, decimal_places=2)
     income_description = models.CharField(max_length=350)
@@ -61,6 +50,7 @@ class Income(models.Model):
 
 
 class Transfers(models.Model):
+    transfer_user = models.ForeignKey(User, on_delete=models.CASCADE)
     transfer_date = models.DateTimeField()
     transfer_from = models.ForeignKey(MoneyAccount,  related_name='transfer_from', on_delete=models.CASCADE)
     transfer_to = models.ForeignKey(MoneyAccount, related_name='transfer_to', on_delete=models.CASCADE)
@@ -73,3 +63,18 @@ class Transfers(models.Model):
 
     class Meta:
         verbose_name = "Transfers"
+
+class ToBePaid(models.Model):
+    tobe_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    tobe_date = models.DateTimeField()
+    tobe_from = models.CharField(max_length=100)
+    tobe_work = models.CharField(max_length=300)
+    tobe_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    tobe_Sure = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.tobe_amount) + " from " + self.tobe_from
+
+    class Meta:
+        verbose_name = "To Be Paid"
+        verbose_name_plural = "To Be Paid"
