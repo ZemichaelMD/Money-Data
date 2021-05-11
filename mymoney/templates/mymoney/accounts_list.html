@@ -4,20 +4,31 @@
 <h1>List of Accounts</h1> 
 <div class="row">
     {% for item in accounts %}
-    <div class="card w-25 bg-light" style="width: 18rem;">
+    <div class="card w-25 bg-light shadow p-2 m-2 bg-light rounded" style="width: 18rem;">
         <div class="card-body">
-          <h5 class="card-title">{{ item.account_name }}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">{{ item.account_balance }}</h6>
+          <h5 class="card-title">{{ item.account_name | title }}</h5>
+          <h4>ETB <span class="badge bg-primary ">{{ item.account_balance }}</span></h4>
+
           {% if item.account_number%}
-          <p class="card-text">Account Number: <br> {{ item.account_number }}</p>
+            <p class="card-text">Account Number: <br>
+                {{ item.account_number }}</p>
           {%else%}
-          <p class="card-text">No Account Number</p>
+            <p class="card-text">No Account Number</p>
           {%endif%}
-          <a href="accounts/update/{{ item.id }}" class="card-link">Update</a>
-          <a href="accounts/delete/{{ item.id }}" class="card-link">Delete</a>
         </div>
       </div>
+        <div class="toplinks" style="display: flex; float: right">
+            <a href="accounts/update/{{ item.id }}" class="card-link">Update</a>
+            <a href="accounts/delete/{{ item.id }}" class="card-link">Delete</a>
+        </div>
     {% endfor %}
+    <a href="{% url 'create_account' %}" class="card w-25 bg-light shadow p-2 m-2 bg-light rounded" style="width: 18rem; text-decoration: none;">
+        <div class="card-body">
+          <div>
+              <h5 class="card-title">Add New Account</h5></div>
+        </div>
+      </a>
 </div>
-</table>
+
+
 {% endblock %}

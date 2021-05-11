@@ -14,10 +14,18 @@ urlpatterns = [
     path('income/update/<int:pk>', views.IncomeUpdateView.as_view(), name='income_update'),
     path('transfers/update/<int:pk>', views.TransfersUpdateView.as_view(), name='transfers_update'),
     path('accounts/update/<int:pk>', views.AccountsUpdateView.as_view(), name='accounts_update'),
+
     path('newexpense', views.ExpensesCreateView.as_view(), name='create_expense'),
+    path('newincome', views.IncomeCreateView.as_view(), name='create_income'),
+    path('newtransfer', views.TransferCreateView.as_view(), name='create_transfer'),
+    path('account', views.AccountCreateView.as_view(), name='create_account'),
 
     path('syncexpence', views.syncExpense, name='SyncE'),
 
     path('login', views.CostomLoginView.as_view(), name='login'),
     path('logout', views.LogoutView.as_view(next_page = 'login'), name='logout'),
+
+    path('api/', views.apiOverview, name='api-response'),
+    path('api/task-list/', views.expenseList, name='api-response'),
+
 ]

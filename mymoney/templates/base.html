@@ -23,7 +23,7 @@
         <div class="container-fluid">
             {% if request.user.is_authenticated %}
             <div class="text-light"> 
-                <h3>{{ request.user }}</h3>
+                <h3>{{ request.user | title }}</h3>
                 <br>
                 <a class="text-light" href="{% url 'logout' %}">Logout</a>
             </div>

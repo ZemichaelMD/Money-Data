@@ -5,6 +5,9 @@ from django.views.generic import ListView,DetailView, UpdateView,CreateView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from django.http import JsonResponse
+from .serializers import ExpenseSerializer
+
 from . import models
 
 # Create your views here.
@@ -65,37 +68,68 @@ class AccountListView(LoginRequiredMixin, ListView):
         context["page_title"] = "Accounts Data"
         return context
 
-#class based DetailViews
+#class based UpdateViews
 class ExpenceUpdateView(LoginRequiredMixin, UpdateView):
     model = models.Expense
     fields = '__all__'
     template_name = "mymoney/generic_update_view.html"
+
+    success_url = reverse_lazy("expenses")
 
 class IncomeUpdateView(LoginRequiredMixin, UpdateView):
     model = models.Income
     fields = '__all__'
     template_name = "mymoney/generic_update_view.html"
 
+    success_url = reverse_lazy('incomes')
+
 class TransfersUpdateView(LoginRequiredMixin, UpdateView):
     model = models.Transfers
     fields = '__all__'
     template_name = "mymoney/generic_update_view.html"
+
+    success_url = reverse_lazy('transfers')
 
 class AccountsUpdateView(LoginRequiredMixin, UpdateView):
     model = models.MoneyAccount
     fields = '__all__'
     template_name = "mymoney/generic_update_view.html"
 
-    def get_success_url(self):
-        view_name = 'index'
-        # No need for reverse_lazy here, because it's called inside the method
-        return reverse_lazy(view_name)
+    success_url = reverse_lazy('accounts')
+
+#Class based CreateViews
+class AccountCreateView(LoginRequiredMixin, CreateView):
+    model = models.MoneyAccount
+    fields = '__all__'
+    template_name = "mymoney/new_expense.html"
+
+    success_url = reverse_lazy("accounts")
 
 
 class ExpensesCreateView(LoginRequiredMixin, CreateView):
     model = models.Expense
     fields = '__all__'
     template_name = "mymoney/new_expense.html"
+
+    success_url = reverse_lazy("expenses")
+
+
+class IncomeCreateView(LoginRequiredMixin, CreateView):
+    model = models.Income
+    fields = '__all__'
+    template_name = "mymoney/new_expense.html"
+
+    success_url = reverse_lazy("incomes")
+
+
+class TransferCreateView(LoginRequiredMixin, CreateView):
+    model = models.Transfers
+    fields = '__all__'
+    template_name = "mymoney/new_expense.html"
+
+    success_url = reverse_lazy("transfers")
+
+
 
 def syncExpense(request):
     context = {}
@@ -144,3 +178,26 @@ def syncExpense(request):
                 context["Done"] = 'Done Syncing' + str(transfer.transfer_reason)
 
     return render(request, 'mymoney/syncexisting.html', context = context)
+
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
+
+@api_view(['GET', 'POST'])
+def apiOverview(request):
+    api_urls = {
+        'Account List':'/account_list/',
+        'Account Create': '/account_create/',
+        'Account Detail':'/account_detail/<int:pk>/',
+        'Account Update': '/account_update/<int:pk>/',
+        'Account Delete': '/account_delete/<int:pk>/',
+    }
+    return Response(api_urls)
+
+@api_view(['GET'])
+def expenseList(request):
+    expenses = models.Expense.objects.all()
+    serializer = ExpenseSerializer(expenses, many=True,)
+
+    return Response(serializer.data)
