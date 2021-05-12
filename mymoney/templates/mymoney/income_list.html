@@ -3,7 +3,14 @@
 {% block content %}
 <h1>List of Incomes</h1>
 
-<ol class="list-group">
+    <br>
+<div class="list-group">
+    <a href="{% url 'create_income' %}" class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">Add New Income</div>
+        </div>
+    </a>
+
 {% for item in incomes %}
     <li class="list-group-item d-flex justify-content-between align-items-start">
         <div class="ms-2 me-auto">
@@ -16,7 +23,7 @@
         <span class="badge bg-primary ">{{ item.income_amount }}</span>
     </li>
 {% endfor %}
-</ol>
+</div>
 
 </table>
 {% endblock %}

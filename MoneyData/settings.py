@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'mymoney',
+
+    'datetimewidget',
     
 
 ]
@@ -62,7 +64,7 @@ ROOT_URLCONF = 'MoneyData.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
+        'DIRS': []
         ,
         'APP_DIRS': True,
         'OPTIONS': {

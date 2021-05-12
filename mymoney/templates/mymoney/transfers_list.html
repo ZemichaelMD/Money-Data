@@ -2,8 +2,14 @@
 
 {% block content %}
 <h1>List of Transfers</h1>
+    <br>
+<div class="list-group">
+    <a href="{% url 'create_transfer' %}" class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+            <div class="fw-bold">Add New Transfer</div>
+        </div>
+    </a>
 
-<ol class="list-group">
     {% for item in transfers %}
     <li class="list-group-item d-flex justify-content-between align-items-start">
         <div class="ms-2 me-auto">
@@ -18,6 +24,6 @@
         <span class="badge bg-primary ">{{ item.transfer_amount }}</span>
     </li>
 {% endfor %}
-</ol>
+</div>
 
 {% endblock %}

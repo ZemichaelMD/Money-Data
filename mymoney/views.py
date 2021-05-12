@@ -8,6 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from .serializers import ExpenseSerializer
 
+from datetimewidget.widgets import DateTimeWidget
+
 from . import models
 
 # Create your views here.
@@ -100,32 +102,69 @@ class AccountsUpdateView(LoginRequiredMixin, UpdateView):
 #Class based CreateViews
 class AccountCreateView(LoginRequiredMixin, CreateView):
     model = models.MoneyAccount
-    fields = '__all__'
-    template_name = "mymoney/new_expense.html"
+    fields = ['account_name','account_number', 'account_balance']
+    template_name = "mymoney/generic_create.html"
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(AccountCreateView, self).form_valid(form)
 
     success_url = reverse_lazy("accounts")
 
 
 class ExpensesCreateView(LoginRequiredMixin, CreateView):
     model = models.Expense
-    fields = '__all__'
-    template_name = "mymoney/new_expense.html"
+    fields = ['expense_date','expense_category','expense_amount','expense_description','expense_note','expense_account','expense_synced']
+    template_name = "mymoney/generic_create.html"
+
+    def get_form(self, *args, **kwargs):
+        # Add date picker in forms
+        from .widgets import XDSoftDateTimePickerInput
+        # Django's own Datetime Selector
+        from django.forms.widgets import SelectDateWidget
+        #Django Admin DatePicker
+        from django.contrib.admin.widgets import AdminDateWidget
+        form = super(ExpensesCreateView, self).get_form()
+        form.fields['expense_date'].widget = SelectDateWidget()
+        return form
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(ExpensesCreateView, self).form_valid(form)
 
     success_url = reverse_lazy("expenses")
 
 
 class IncomeCreateView(LoginRequiredMixin, CreateView):
     model = models.Income
-    fields = '__all__'
-    template_name = "mymoney/new_expense.html"
+    fields = ['income_date','income_amount', 'income_description', 'income_note','income_account','income_synced']
+    template_name = "mymoney/generic_create.html"
+
+    def get_form(self, *args, **kwargs):
+        from django.forms.widgets import SelectDateWidget
+        form = super(IncomeCreateView, self).get_form()
+        form.fields['income_date'].widget = SelectDateWidget()
+        return form
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(IncomeCreateView, self).form_valid(form)
 
     success_url = reverse_lazy("incomes")
 
 
 class TransferCreateView(LoginRequiredMixin, CreateView):
     model = models.Transfers
-    fields = '__all__'
-    template_name = "mymoney/new_expense.html"
+    fields = ['transfer_date', 'transfer_from', 'transfer_to', 'transfer_amount', 'transfer_reason']
+    template_name = "mymoney/generic_create.html"
+
+    def get_form(self, *args, **kwargs):
+        from django.forms.widgets import SelectDateWidget
+        form = super(TransferCreateView, self).get_form()
+        form.fields['transfer_date'].widget = SelectDateWidget()
+        return form
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(TransferCreateView, self).form_valid(form)
 
     success_url = reverse_lazy("transfers")
 
