@@ -16,11 +16,11 @@
             <p class="card-text">No Account Number</p>
           {%endif%}
         </div>
-      </div>
-        <div class="toplinks" style="display: flex; float: right">
+            <div class="toplinks" style="display: flex; float: right">
             <a href="accounts/update/{{ item.id }}" class="card-link">Update</a>
             <a href="accounts/delete/{{ item.id }}" class="card-link">Delete</a>
         </div>
+      </div>
     {% endfor %}
     <a href="{% url 'create_account' %}" class="card w-25 bg-light shadow p-2 m-2 bg-light rounded" style="width: 18rem; text-decoration: none;">
         <div class="card-body">

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.urls import reverse_lazy
-from django.views.generic import ListView,DetailView, UpdateView,CreateView
+from django.views.generic import ListView,DetailView, UpdateView,CreateView, DeleteView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -72,28 +72,28 @@ class AccountListView(LoginRequiredMixin, ListView):
 class ExpenceUpdateView(LoginRequiredMixin, UpdateView):
     model = models.Expense
     fields = '__all__'
-    template_name = "mymoney/generic_update_view.html"
+    template_name = "mymoney/generic_update.html"
 
     success_url = reverse_lazy("expenses")
 
 class IncomeUpdateView(LoginRequiredMixin, UpdateView):
     model = models.Income
     fields = '__all__'
-    template_name = "mymoney/generic_update_view.html"
+    template_name = "mymoney/generic_update.html"
 
     success_url = reverse_lazy('incomes')
 
 class TransfersUpdateView(LoginRequiredMixin, UpdateView):
     model = models.Transfers
     fields = '__all__'
-    template_name = "mymoney/generic_update_view.html"
+    template_name = "mymoney/generic_update.html"
 
     success_url = reverse_lazy('transfers')
 
 class AccountsUpdateView(LoginRequiredMixin, UpdateView):
     model = models.MoneyAccount
     fields = '__all__'
-    template_name = "mymoney/generic_update_view.html"
+    template_name = "mymoney/generic_update.html"
 
     success_url = reverse_lazy('accounts')
 
@@ -126,6 +126,28 @@ class TransferCreateView(LoginRequiredMixin, CreateView):
     model = models.Transfers
     fields = '__all__'
     template_name = "mymoney/new_expense.html"
+
+    success_url = reverse_lazy("transfers")
+
+#Class based DeleteViews
+class ExpenseDeleteView(LoginRequiredMixin, DeleteView):
+    model = models.Expense
+    fields = '__all__'
+    template_name = "mymoney/generic_delete.html"
+
+    success_url = reverse_lazy("expenses")
+
+class IncomeDeleteView(LoginRequiredMixin, DeleteView):
+    model = models.Income
+    fields = '__all__'
+    template_name = "mymoney/generic_delete.html"
+
+    success_url = reverse_lazy("incomes")
+
+class TransferDeleteView(LoginRequiredMixin, DeleteView):
+    model = models.Transfers
+    fields = '__all__'
+    template_name = "mymoney/generic_delete.html"
 
     success_url = reverse_lazy("transfers")
 
@@ -179,17 +201,16 @@ def syncExpense(request):
 
     return render(request, 'mymoney/syncexisting.html', context = context)
 
-
+#REST API
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
 
 @api_view(['GET', 'POST'])
 def apiOverview(request):
     api_urls = {
-        'Account List':'/account_list/',
+        'Account List': '/account_list/',
         'Account Create': '/account_create/',
-        'Account Detail':'/account_detail/<int:pk>/',
+        'Account Detail': '/account_detail/<int:pk>/',
         'Account Update': '/account_update/<int:pk>/',
         'Account Delete': '/account_delete/<int:pk>/',
     }
@@ -199,5 +220,4 @@ def apiOverview(request):
 def expenseList(request):
     expenses = models.Expense.objects.all()
     serializer = ExpenseSerializer(expenses, many=True,)
-
     return Response(serializer.data)

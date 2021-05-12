@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>New Expenses</h1>
+<h1>Are you sure you want to delete "{{ object }}"?</h1>
     <form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Save">
+    <input type="submit" value="Confirm">
     </form>
 {% endblock %}
