@@ -13,7 +13,7 @@ from datetimewidget.widgets import DateTimeWidget
 from . import models
 
 # Create your views here.
-#class based Listviews
+# Class based Listviews
 class CostomLoginView(LoginView):
     template_name = "mymoney/login.html"
     fields = '__all__'
@@ -59,6 +59,7 @@ class TransferListView(LoginRequiredMixin, ListView):
         context["page_title"] = "Transfer Data"
         return context
 
+
 class AccountListView(LoginRequiredMixin, ListView):
     model = models.MoneyAccount
     template_name = "mymoney/accounts_list.html"
@@ -70,13 +71,15 @@ class AccountListView(LoginRequiredMixin, ListView):
         context["page_title"] = "Accounts Data"
         return context
 
-#class based UpdateViews
+
+# Class based UpdateViews
 class ExpenceUpdateView(LoginRequiredMixin, UpdateView):
     model = models.Expense
     fields = '__all__'
     template_name = "mymoney/generic_update.html"
 
     success_url = reverse_lazy("expenses")
+
 
 class IncomeUpdateView(LoginRequiredMixin, UpdateView):
     model = models.Income
@@ -85,6 +88,7 @@ class IncomeUpdateView(LoginRequiredMixin, UpdateView):
 
     success_url = reverse_lazy('incomes')
 
+
 class TransfersUpdateView(LoginRequiredMixin, UpdateView):
     model = models.Transfers
     fields = '__all__'
@@ -92,14 +96,16 @@ class TransfersUpdateView(LoginRequiredMixin, UpdateView):
 
     success_url = reverse_lazy('transfers')
 
+
 class AccountsUpdateView(LoginRequiredMixin, UpdateView):
     model = models.MoneyAccount
-    fields = '__all__'
+    fields = ['account_name','account_number']
     template_name = "mymoney/generic_update.html"
 
     success_url = reverse_lazy('accounts')
 
-#Class based CreateViews
+
+# Class based CreateViews
 class AccountCreateView(LoginRequiredMixin, CreateView):
     model = models.MoneyAccount
     fields = ['account_name','account_number', 'account_balance']
@@ -114,7 +120,7 @@ class AccountCreateView(LoginRequiredMixin, CreateView):
 
 class ExpensesCreateView(LoginRequiredMixin, CreateView):
     model = models.Expense
-    fields = ['expense_date','expense_category','expense_amount','expense_description','expense_note','expense_account','expense_synced']
+    fields = ['expense_date','expense_category','expense_amount','expense_description','expense_note','expense_account']
     template_name = "mymoney/generic_create.html"
 
     def get_form(self, *args, **kwargs):
@@ -127,6 +133,7 @@ class ExpensesCreateView(LoginRequiredMixin, CreateView):
         form = super(ExpensesCreateView, self).get_form()
         form.fields['expense_date'].widget = SelectDateWidget()
         return form
+
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super(ExpensesCreateView, self).form_valid(form)
@@ -136,7 +143,7 @@ class ExpensesCreateView(LoginRequiredMixin, CreateView):
 
 class IncomeCreateView(LoginRequiredMixin, CreateView):
     model = models.Income
-    fields = ['income_date','income_amount', 'income_description', 'income_note','income_account','income_synced']
+    fields = ['income_date','income_amount', 'income_description', 'income_note','income_account',]
     template_name = "mymoney/generic_create.html"
 
     def get_form(self, *args, **kwargs):
