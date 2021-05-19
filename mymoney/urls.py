@@ -4,6 +4,8 @@ from django.contrib.auth.views import LogoutView
 
 
 urlpatterns = [
+    path('adddata/', views.addFromExel, name="addfromexel"),
+
     path('', views.AccountListView.as_view(), name='index'),
     path('expenses', views.ExpenceListView.as_view(), name='expenses'),
     path('income', views.IncomeListView.as_view(), name='incomes'),

@@ -29,7 +29,7 @@ class Expense(models.Model):
         return str(self.expense_amount) + " - for " + self. expense_description
 
     def save(self, *args, **kwargs):
-        self.expense_account.account_balance -= self.expense_amount
+        self.expense_account.account_balance -= int(self.expense_amount)
         self.expense_account.save()
         super().save(*args, **kwargs)
 
@@ -54,10 +54,15 @@ class Income(models.Model):
         return str(self.income_amount) + " from " + self.income_description
 
     def save(self, *args, **kwargs):
+        innit_balance = self.income_amount
         #Created is a logic to specify ONLY if object is new
         created = not self.pk
-        self.income_account.account_balance += self.income_amount
-        self.income_account.save()
+        if created :
+            self.income_account.account_balance += int(self.income_amount)
+            self.income_account.save()
+        else:
+            account_chaenge = innit_balance
+           
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
@@ -67,6 +72,7 @@ class Income(models.Model):
 
     class Meta:
         verbose_name = "Income"
+
 
 
 class Transfers(models.Model):
@@ -81,8 +87,8 @@ class Transfers(models.Model):
         return str(self.transfer_amount) + " transferred"
 
     def save(self, *args, **kwargs):
-        self.transfer_to.account_balance += self.transfer_amount
-        self.transfer_from.account_balance -= self.transfer_amount
+        self.transfer_to.account_balance += int(self.transfer_amount)
+        self.transfer_from.account_balance -= int(self.transfer_amount)
         self.transfer_from.save()
         self.transfer_to.save()
         super().save(*args, **kwargs)
