@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import decimal
 
 
 # Create your models here.
@@ -29,12 +30,14 @@ class Expense(models.Model):
         return str(self.expense_amount) + " - for " + self. expense_description
 
     def save(self, *args, **kwargs):
-        self.expense_account.account_balance -= int(self.expense_amount)
-        self.expense_account.save()
+        created = not self.pk
+        if created :
+            self.expense_account.account_balance -= decimal.Decimal(self.expense_amount)
+            self.expense_account.save()
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
-        self.expense_account.account_balance += self.expense_amount
+        self.expense_account.account_balance += decimal.Decimal(self.expense_amount)
         self.expense_account.save()
         super().delete(*args, **kwargs)
 
@@ -58,7 +61,7 @@ class Income(models.Model):
         #Created is a logic to specify ONLY if object is new
         created = not self.pk
         if created :
-            self.income_account.account_balance += int(self.income_amount)
+            self.income_account.account_balance += decimal.Decimal(self.income_amount)
             self.income_account.save()
         else:
             account_chaenge = innit_balance
@@ -87,10 +90,12 @@ class Transfers(models.Model):
         return str(self.transfer_amount) + " transferred"
 
     def save(self, *args, **kwargs):
-        self.transfer_to.account_balance += int(self.transfer_amount)
-        self.transfer_from.account_balance -= int(self.transfer_amount)
-        self.transfer_from.save()
-        self.transfer_to.save()
+        created = not self.pk
+        if created :
+            self.transfer_to.account_balance += decimal.Decimal(self.transfer_amount)
+            self.transfer_from.account_balance -= decimal.Decimal(self.transfer_amount)
+            self.transfer_from.save()
+            self.transfer_to.save()
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):

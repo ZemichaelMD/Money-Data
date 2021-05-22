@@ -112,7 +112,7 @@ class AccountCreateView(LoginRequiredMixin, CreateView):
     template_name = "mymoney/generic_create.html"
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        form.instance.account_user_id= self.request.user.id
         return super(AccountCreateView, self).form_valid(form)
 
     success_url = reverse_lazy("accounts")
@@ -135,7 +135,7 @@ class ExpensesCreateView(LoginRequiredMixin, CreateView):
         return form
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        form.instance.expense_user_id = self.request.user.id
         return super(ExpensesCreateView, self).form_valid(form)
 
     success_url = reverse_lazy("expenses")
@@ -152,7 +152,7 @@ class IncomeCreateView(LoginRequiredMixin, CreateView):
         form.fields['income_date'].widget = SelectDateWidget()
         return form
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        form.instance.income_user_id = self.request.user.id
         return super(IncomeCreateView, self).form_valid(form)
 
     success_url = reverse_lazy("incomes")
@@ -170,7 +170,7 @@ class TransferCreateView(LoginRequiredMixin, CreateView):
         return form
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        form.instance.transfer_user_id = self.request.user.user
         return super(TransferCreateView, self).form_valid(form)
 
     success_url = reverse_lazy("transfers")
