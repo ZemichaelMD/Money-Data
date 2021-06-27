@@ -6,6 +6,9 @@ function App() {
     <div className="App">
         <Header />
         <div className="body">
+          <code>
+            This is my code
+          </code>
           <AccountList />
         </div>
         

@@ -28,19 +28,6 @@ class Expense(models.Model):
 
     def __str__(self):
         return str(self.expense_amount) + " - for " + self. expense_description
-
-    def save(self, *args, **kwargs):
-        created = not self.pk
-        if created :
-            self.expense_account.account_balance -= decimal.Decimal(self.expense_amount)
-            self.expense_account.save()
-        super().save(*args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        self.expense_account.account_balance += decimal.Decimal(self.expense_amount)
-        self.expense_account.save()
-        super().delete(*args, **kwargs)
-
     class Meta:
         verbose_name = "Expense"
 
@@ -55,24 +42,6 @@ class Income(models.Model):
 
     def __str__(self):
         return str(self.income_amount) + " from " + self.income_description
-
-    def save(self, *args, **kwargs):
-        innit_balance = self.income_amount
-        #Created is a logic to specify ONLY if object is new
-        created = not self.pk
-        if created :
-            self.income_account.account_balance += decimal.Decimal(self.income_amount)
-            self.income_account.save()
-        else:
-            account_chaenge = innit_balance
-           
-        super().save(*args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        self.income_account.account_balance -= self.income_amount
-        self.income_account.save()
-        super(self).delete(*args, **kwargs)
-
     class Meta:
         verbose_name = "Income"
 
@@ -88,25 +57,8 @@ class Transfers(models.Model):
 
     def __str__(self):
         return str(self.transfer_amount) + " transferred"
-
-    def save(self, *args, **kwargs):
-        created = not self.pk
-        if created :
-            self.transfer_to.account_balance += decimal.Decimal(self.transfer_amount)
-            self.transfer_from.account_balance -= decimal.Decimal(self.transfer_amount)
-            self.transfer_from.save()
-            self.transfer_to.save()
-        super().save(*args, **kwargs)
-
-    def delete(self, *args, **kwargs):
-        self.transfer_to.account_balance -= self.transfer_amount
-        self.transfer_from.account_balance += self.transfer_amount
-        self.transfer_from.save()
-        self.transfer_to.save()
-        super().delete(*args, **kwargs)
-
     class Meta:
-        verbose_name = "Transfers"
+        verbose_name = "Transfer"
 
 class ToBePaid(models.Model):
     tobe_user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -118,7 +70,6 @@ class ToBePaid(models.Model):
 
     def __str__(self):
         return str(self.tobe_amount) + " from " + self.tobe_from
-
     class Meta:
         verbose_name = "To Be Paid"
         verbose_name_plural = "To Be Paid"
