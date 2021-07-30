@@ -7,6 +7,7 @@ from . import views, viewSets
 router = routers.DefaultRouter()
 router.register(r'users', viewSets.UserViewSet)
 router.register(r'accounts', viewSets.AccountViewSet)
+router.register(r'expenses', viewSets.ExpenseViewSet)
 
 
 # Wire up our API using automatic URL routing.

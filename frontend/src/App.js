@@ -1,17 +1,26 @@
-import AccountList from './Components/AccountList'
-import Header from './Components/header'
+import { useState, useEffect } from "react";
+import axios from "axios";
+import AccountList from "./Components/AccountList";
+import Header from "./Components/header";
 
 function App() {
+  const [data, setData] = useState({});
+  const getData = () => {
+    axios.get("http://localhost:8000/users/").then((res) => {
+      console.log('fetched');
+      setData(res.data);
+    });
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <div className="App">
-        <Header />
-        <div className="body">
-          <code>
-            This is my code
-          </code>
-          <AccountList />
-        </div>
-        
+      <Header />
+      <h1 className="body">
+        {data[0] ? <>{data[0].email}</> : <>Loading...</>}
+      </h1>
     </div>
   );
 }
